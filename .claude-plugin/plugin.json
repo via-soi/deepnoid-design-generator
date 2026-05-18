@@ -1,0 +1,6 @@
+{
+  "name": "deepnoid-design-generator",
+  "version": "0.1.0",
+  "description": "문서를 DEEPNOID 공식 템플릿 디자인에 맞춰 PPT·Word 산출물로 자동 변환하는 플러그인",
+  "author": { "name": "via-soi", "email": "mkt.songhee@gmail.com" }
+}

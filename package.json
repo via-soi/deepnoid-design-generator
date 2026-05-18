@@ -1,0 +1,19 @@
+{
+  "name": "deepnoid-ppt-generator",
+  "version": "1.0.0",
+  "description": "Excel/Word 문서를 DEEPNOID 공식 PPT 템플릿 디자인 그대로 PPTX로 자동 생성하는 Claude Code 플러그인입니다.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "pdf-to-img": "^6.1.0"
+  }
+}

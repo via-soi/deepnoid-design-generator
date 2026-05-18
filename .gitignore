@@ -1,0 +1,20 @@
+# Node
+node_modules/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# 작업 산출물 / 임시 파일
+# (렌더 PNG 등 임시 산출물은 모두 _work/ 안에 둔다)
+_work/
+_raw_slides/
+*.tmp
+unpacked/
+draft-*.pptx
+
+# OS
+.DS_Store
+Thumbs.db
