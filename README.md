@@ -12,7 +12,6 @@
 | 항목 | 포함 여부 | 위치 |
 |---|---|---|
 | 플러그인 프레임워크 (코드·스크립트·설계 문서) | 포함 | `tools/`, `docs/`, `.claude-plugin/` |
-| DEEPNOID PPT 템플릿 (내지 사이드바 제거 최신본) | 포함 | `skills/generate-deepnoid-ppt/assets/deepnoid-ppt-template.pptx` |
 | DEEPNOID 디자인 시스템 (컬러·타이포·레이아웃 규칙) | 포함 | `skills/generate-deepnoid-ppt/assets/design_260520.md` |
 | 원본 PPT 템플릿 (57장) + 유형별 슬라이드 이미지 | 포함 | `docs/reference/` |
 | DEEPNOID Word 템플릿 | 미포함 (비공개 별도 관리) | — |
@@ -30,7 +29,7 @@
 | 경로 | 내용 |
 |---|---|
 | `.claude-plugin/plugin.json` | 플러그인 매니페스트 |
-| `skills/generate-deepnoid-ppt/assets/` | DEEPNOID PPT 템플릿 + 디자인 시스템 명세(`design_260520.md`) |
+| `skills/generate-deepnoid-ppt/assets/` | DEEPNOID 디자인 시스템 명세(`design_260520.md`) |
 | `tools/` | PPTX 추출·렌더링·매핑 보조 스크립트 |
 | `docs/specs/` · `docs/plans/` | 설계 문서 · 구현 계획 |
 | `docs/reference/` | 원본 PPT 템플릿 + 유형별 슬라이드 이미지 |
