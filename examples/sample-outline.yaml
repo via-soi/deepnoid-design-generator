@@ -1,0 +1,84 @@
+deck:
+  title: "Tech Talks AX #01 — 비개발자의 AX 포인트"
+  subtitle: "데모 outline"
+  output: "_work/demo-output.pptx"
+
+slides:
+  - type: cover
+    title: "엄마, 나 터미널 켰어"
+    subtitle: "윈도우 쓰는 비개발자의 AX 포인트 찾기  ·  Tech Talks AX #01"
+
+  - type: divider
+    chapter: "Chapter 01"
+    title: "AX는 기술부서만의 일이 아니다"
+    number: 1
+
+  - type: card-grid-3
+    eyebrow: "Intro  /  지금 우리 풍경"
+    title: "도입은 모두에게, 사용은 부서별로"
+    cards:
+      - header: "도구 확산"
+        body: "Claude · ChatGPT · Copilot · NotebookLM…  도구 측면에서는 없어서 못 쓰는 단계가 아님."
+        accent: gray
+      - header: "부서별 격차"
+        body: "사용률은 부서마다 10배 이상 벌어진다.  관전만 하면 격차는 굳어진다."
+        accent: blue
+      - header: "써봐야 안다"
+        body: "AX는 기술팀만의 일이 아니다.  현업의 손에서 굴려봐야 sweet spot 보임."
+        accent: green
+
+  - type: comparison
+    eyebrow: "Why  /  왜 써야해?"
+    title: "관성의 시간을 검토와 책임의 시간으로"
+    asis:
+      label: "AS-IS  ·  지금 우리"
+      header: "반복적·관성적 업무에 시간을 쓴다"
+      bullets:
+        - "같은 형식의 반복 검토"
+        - "비슷한 메일 매주 발송"
+        - "휴먼 에러 + 피로"
+    tobe:
+      label: "TO-BE  ·  AX 이후"
+      header: "검토와 책임의 시간을 확보한다"
+      bullets:
+        - "반복 작업은 AI에게 위임"
+        - "사람은 의사결정·책임"
+        - "관성 → 판단의 영역으로 이동"
+    caption: "AI는 도구, AX는 업무·조직의 전환."
+
+  - type: step
+    eyebrow: "How  /  4단계 반복 프레임"
+    title: "작게 시도하고, 시그널을 보고, 크게 키운다"
+    steps:
+      - label: "STEP 1"
+        header: "가설을 세운다"
+        body: "이 업무에서 AI가 도울 수 있을 만한 가장 작은 가설을 적는다."
+      - label: "STEP 2"
+        header: "작게 테스트한다"
+        body: "최소 리소스로 굴린다.  하루 안에 끝낼 크기로."
+      - label: "STEP 3"
+        header: "긍정 시그널을 본다"
+        body: "시간 절약 · 에러 감소 · 검토 품질 등 정량·체감 시그널 확인."
+      - label: "STEP 4"
+        header: "스케일업한다"
+        body: "팀 워크플로우로 옮기고, 스킬·자동화로 자산화한다."
+    footer: "반복(Iteration) — 정답을 향한 가장 빠른 길."
+
+  - type: kpi
+    eyebrow: "Closing  /  Takehome Message"
+    title: "AX는 도구 도입이 아니라 정의의 전환"
+    cards:
+      - number: "01"
+        header: "왜?가 먼저다"
+        body: "목표가 없으면 자동화는 잡일이 된다."
+      - number: "02"
+        header: "워크플로우 설계"
+        body: "Task가 아니라 Workflow를 본다."
+      - number: "03"
+        header: "AI ≠ AX"
+        body: "AI는 기술, AX는 업무·조직의 전환."
+      - number: "04"
+        header: "직무 정의가 먼저"
+        body: "본인의 직무 정의가 있어야 AI에 먹히지 않는다."
+
+  - type: outro
