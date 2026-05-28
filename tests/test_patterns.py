@@ -86,3 +86,16 @@ def test_step_flow_footer(slide):
     add_step_flow(slide, steps=steps, footer="요약 한 줄")
     footer = [s for s in slide.shapes if s.has_text_frame and "요약 한 줄" in s.text_frame.text]
     assert len(footer) == 1
+
+
+from tools.deepnoid_builder.patterns import add_kpi_cards
+
+
+def test_kpi_4_cards(slide):
+    cards = [
+        {"number": f"0{i+1}", "header": f"H{i+1}", "body": f"B{i+1}"}
+        for i in range(4)
+    ]
+    add_kpi_cards(slide, cards=cards)
+    rects = [s for s in slide.shapes if s.shape_type == 1]
+    assert len(rects) == 4

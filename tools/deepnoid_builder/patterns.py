@@ -302,6 +302,38 @@ def _step_card(slide, x, y, w, h, color: RGBColor,
     _fmt_text(tb, body, size_pt=14, bold=False, color=BLACK)
 
 
+# ================== §6.5 KPI·메시지형 ==================
+def add_kpi_cards(slide, cards: list) -> None:
+    """§6.5 KPI/메시지 카드 — 메인색 솔리드 채움, 흰 텍스트.
+
+    cards: [{"number": "01", "header": "...", "body": "..."}, ...]
+    """
+    n = len(cards)
+    if not 3 <= n <= 4:
+        raise ValueError(f"KPI 카드 수는 3~4: 받은 값 {n}")
+    w, h, gap = STEP_W, STEP_H, STEP_GAP   # 4단 그리드와 동일
+    for i, c in enumerate(cards):
+        x = BODY_X + i * (w + gap)
+        fill = BLUE if i % 2 == 0 else GREEN
+        rect = slide.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE,
+                                      Cm(x), Cm(BODY_Y), Cm(w), Cm(h))
+        rect.adjustments[0] = 0.05
+        rect.fill.solid()
+        rect.fill.fore_color.rgb = fill
+        rect.line.fill.background()
+        rect.shadow.inherit = False
+        # 큰 숫자
+        tb = slide.shapes.add_textbox(Cm(x + 0.5), Cm(BODY_Y + 0.5), Cm(w - 1.0), Cm(2.5))
+        _fmt_text(tb, c.get("number", ""), size_pt=42, bold=True, color=WHITE)
+        # 헤더
+        tb = slide.shapes.add_textbox(Cm(x + 0.5), Cm(BODY_Y + 3.5), Cm(w - 1.0), Cm(1.6))
+        _fmt_text(tb, c.get("header", ""), size_pt=14, bold=True, color=WHITE)
+        # 본문
+        tb = slide.shapes.add_textbox(Cm(x + 0.5), Cm(BODY_Y + 5.5),
+                                      Cm(w - 1.0), Cm(h - 6.0))
+        _fmt_text(tb, c.get("body", ""), size_pt=14, bold=False, color=WHITE)
+
+
 # ================== 공용 텍스트 헬퍼 ==================
 def _fmt_text(shape, text: str, size_pt: float, bold: bool, color: RGBColor) -> None:
     """텍스트박스/도형에 단일 단락·단일 run 텍스트를 채운다."""
