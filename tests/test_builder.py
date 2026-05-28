@@ -27,3 +27,27 @@ def test_outro_has_slogan(prs):
     slide = prs.slides[0]
     txts = " ".join(s.text_frame.text for s in slide.shapes if s.has_text_frame)
     assert "Through AI" in txts
+
+
+from tools.deepnoid_builder.builder import build
+
+
+def test_build_full_outline():
+    outline = {
+        "deck": {"title": "T", "subtitle": "S"},
+        "slides": [
+            {"type": "cover", "title": "표지", "subtitle": "부제"},
+            {"type": "divider", "chapter": "Chapter 01", "title": "섹션", "number": 1},
+            {"type": "card-grid-3",
+             "eyebrow": "Intro / X",
+             "title": "내지 제목",
+             "cards": [
+                 {"header": "A", "body": "a"},
+                 {"header": "B", "body": "b", "accent": "blue"},
+                 {"header": "C", "body": "c"},
+             ]},
+            {"type": "outro"},
+        ],
+    }
+    prs = build(outline)
+    assert len(prs.slides) == 4
