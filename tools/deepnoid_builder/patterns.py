@@ -226,6 +226,82 @@ def _compare_panel(slide, x, y, w, h, fill, line,
         run.font.color.rgb = BLUE if is_last_highlight else BLACK
 
 
+# ================== §6.4 스텝형 ==================
+from pptx.enum.shapes import MSO_CONNECTOR
+
+STEP_W = 7.46
+STEP_H = 9.0
+STEP_GAP = 0.45
+
+
+def add_step_flow(slide, steps: list, footer: str = "") -> None:
+    """§6.4 스텝형 (3~5개 카드 + 연결 화살표).
+
+    steps: [{"label": "STEP 1", "header": "...", "body": "..."}, ...]
+    """
+    n = len(steps)
+    if not 3 <= n <= 5:
+        raise ValueError(f"스텝 수는 3~5: 받은 값 {n}")
+    for i, s in enumerate(steps):
+        x = BODY_X + i * (STEP_W + STEP_GAP)
+        color = BLUE if i % 2 == 0 else GREEN
+        _step_card(slide, x, BODY_Y, STEP_W, STEP_H, color,
+                   s.get("label", ""), s.get("header", ""), s.get("body", ""))
+        # 화살표 (마지막 카드 뒤에는 없음)
+        if i < n - 1:
+            x_from = x + STEP_W + 0.05
+            x_to = x + STEP_W + STEP_GAP - 0.05
+            y_mid = BODY_Y + STEP_H / 2
+            conn = slide.shapes.add_connector(
+                MSO_CONNECTOR.STRAIGHT,
+                Cm(x_from), Cm(y_mid), Cm(x_to), Cm(y_mid),
+            )
+            conn.line.color.rgb = BLUE
+            conn.line.width = Pt(0.75)
+            # 화살촉 (tailEnd)
+            from lxml import etree
+            ln = conn.get_or_add_ln()
+            etree.SubElement(
+                ln,
+                '{http://schemas.openxmlformats.org/drawingml/2006/main}tailEnd',
+                {'type': 'triangle', 'w': 'med', 'len': 'med'},
+            )
+    if footer:
+        tb = slide.shapes.add_textbox(Cm(BODY_X), Cm(CAPTION_Y), Cm(31.21), Cm(0.8))
+        from pptx.enum.text import PP_ALIGN
+        p = tb.text_frame.paragraphs[0]
+        p.alignment = PP_ALIGN.CENTER
+        p.text = ""
+        run = p.add_run()
+        run.text = footer
+        run.font.name = "Pretendard"
+        run.font.size = Pt(14)
+        run.font.bold = True
+        run.font.color.rgb = BLUE
+
+
+def _step_card(slide, x, y, w, h, color: RGBColor,
+               label: str, header: str, body: str) -> None:
+    rect = slide.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE,
+                                  Cm(x), Cm(y), Cm(w), Cm(h))
+    rect.adjustments[0] = 0.05
+    rect.fill.solid()
+    rect.fill.fore_color.rgb = SURFACE
+    rect.line.color.rgb = color
+    rect.line.width = Pt(1)
+    rect.shadow.inherit = False
+    # STEP 라벨
+    tb = slide.shapes.add_textbox(Cm(x + 0.5), Cm(y + 0.5), Cm(w - 1.0), Cm(0.6))
+    _fmt_text(tb, label, size_pt=10, bold=True, color=color)
+    # 헤더
+    tb = slide.shapes.add_textbox(Cm(x + 0.5), Cm(y + 1.4), Cm(w - 1.0), Cm(1.6))
+    _fmt_text(tb, header, size_pt=14, bold=True, color=BLACK)
+    # 본문
+    tb = slide.shapes.add_textbox(Cm(x + 0.5), Cm(y + 3.4),
+                                  Cm(w - 1.0), Cm(h - 4.0))
+    _fmt_text(tb, body, size_pt=14, bold=False, color=BLACK)
+
+
 # ================== 공용 텍스트 헬퍼 ==================
 def _fmt_text(shape, text: str, size_pt: float, bold: bool, color: RGBColor) -> None:
     """텍스트박스/도형에 단일 단락·단일 run 텍스트를 채운다."""

@@ -63,3 +63,26 @@ def test_comparison_caption(slide):
                    caption="요약 캡션")
     cap = [s for s in slide.shapes if s.has_text_frame and "요약 캡션" in s.text_frame.text]
     assert len(cap) == 1
+
+
+from tools.deepnoid_builder.patterns import add_step_flow
+
+
+def test_step_flow_4_cards(slide):
+    steps = [
+        {"label": f"STEP {i+1}", "header": f"H{i+1}", "body": f"B{i+1}"}
+        for i in range(4)
+    ]
+    add_step_flow(slide, steps=steps, footer="반복 핵심 메시지")
+    rects = [s for s in slide.shapes if s.shape_type == 1]
+    assert len(rects) == 4
+    # 카드 사이 화살표 3개
+    conns = [s for s in slide.shapes if s.shape_type == 9]  # LINE / connector
+    assert len(conns) >= 3
+
+
+def test_step_flow_footer(slide):
+    steps = [{"label": "S1", "header": "H", "body": "B"}] * 3
+    add_step_flow(slide, steps=steps, footer="요약 한 줄")
+    footer = [s for s in slide.shapes if s.has_text_frame and "요약 한 줄" in s.text_frame.text]
+    assert len(footer) == 1
