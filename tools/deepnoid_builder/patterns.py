@@ -96,6 +96,60 @@ def _accent_to_colors(accent: str):
     raise ValueError(f"알 수 없는 accent: {accent}")
 
 
+# ================== §6.2 카드 그리드 ==================
+GRID_SPECS = {
+    # n: (card_w, card_h, gap_x)
+    2: (15.20, 9.0, 0.50),
+    3: (10.07, 9.0, 0.50),
+    4: (7.46, 9.0, 0.45),
+}
+GRID_7 = (7.46, 5.3, 0.45, 0.40)  # w, h, gap_x, gap_y — 4×2
+
+
+def add_card_grid(slide, n: int, cards: list, note: str = "") -> None:
+    """§6.2 카드 그리드. n ∈ {2,3,4,7}.
+
+    cards: [{"header": str, "body": str, "accent": "gray"|"blue"|"green"}, ...]
+    note (n=7 한정): 8번째 안내 카드의 본문. 헤더 없음.
+    """
+    if n == 7:
+        return _grid_7(slide, cards, note)
+    if n not in GRID_SPECS:
+        raise ValueError(f"지원하지 않는 카드 수: {n}")
+    w, h, gap = GRID_SPECS[n]
+    if len(cards) < n:
+        cards = cards + [{"header": "", "body": "", "accent": "gray"}] * (n - len(cards))
+    for i in range(n):
+        x = BODY_X + i * (w + gap)
+        c = cards[i]
+        add_card(slide, x_cm=x, y_cm=BODY_Y, w_cm=w, h_cm=h,
+                 header=c.get("header", ""), body=c.get("body", ""),
+                 accent=c.get("accent", "gray"))
+
+
+def _grid_7(slide, cards: list, note: str) -> None:
+    """4×2 그리드: 7장 + 1 안내 카드."""
+    w, h, gx, gy = GRID_7
+    if len(cards) < 7:
+        cards = cards + [{"header": "", "body": "", "accent": "gray"}] * (7 - len(cards))
+    for i in range(7):
+        col = i % 4
+        row = i // 4
+        x = BODY_X + col * (w + gx)
+        y = BODY_Y + row * (h + gy)
+        c = cards[i]
+        add_card(slide, x_cm=x, y_cm=y, w_cm=w, h_cm=h,
+                 header=c.get("header", ""), body=c.get("body", ""),
+                 accent=c.get("accent", "gray"))
+    # 8번째: 안내 카드 (LIGHT_GREEN 배경)
+    col = 3
+    row = 1
+    x = BODY_X + col * (w + gx)
+    y = BODY_Y + row * (h + gy)
+    add_card(slide, x_cm=x, y_cm=y, w_cm=w, h_cm=h,
+             header="", body=note, accent="green")
+
+
 # ================== 공용 텍스트 헬퍼 ==================
 def _fmt_text(shape, text: str, size_pt: float, bold: bool, color: RGBColor) -> None:
     """텍스트박스/도형에 단일 단락·단일 run 텍스트를 채운다."""

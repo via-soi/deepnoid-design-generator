@@ -1,5 +1,5 @@
 from pptx.util import Cm
-from tools.deepnoid_builder.patterns import add_eyebrow_and_title, add_card
+from tools.deepnoid_builder.patterns import add_eyebrow_and_title, add_card, add_card_grid
 
 
 def test_eyebrow_and_title_adds_two_textboxes(slide):
@@ -20,3 +20,29 @@ def test_card_adds_rectangle_with_header_and_body(slide):
     all_text = " ".join(s.text_frame.text for s in slide.shapes if s.has_text_frame)
     assert "R&D" in all_text
     assert "70%" in all_text
+
+
+def test_grid_3_adds_three_cards(slide):
+    cards = [
+        {"header": "A", "body": "a", "accent": "gray"},
+        {"header": "B", "body": "b", "accent": "blue"},
+        {"header": "C", "body": "c", "accent": "gray"},
+    ]
+    add_card_grid(slide, n=3, cards=cards)
+    rects = [s for s in slide.shapes if s.shape_type == 1]  # AUTO_SHAPE
+    assert len(rects) == 3
+
+
+def test_grid_4_adds_four_cards(slide):
+    cards = [{"header": f"H{i}", "body": f"b{i}"} for i in range(4)]
+    add_card_grid(slide, n=4, cards=cards)
+    rects = [s for s in slide.shapes if s.shape_type == 1]
+    assert len(rects) == 4
+
+
+def test_grid_7_adds_eight_cards(slide):
+    """7카드 + 1 안내 카드 = 도형 8."""
+    cards = [{"header": f"H{i}", "body": f"b{i}"} for i in range(7)]
+    add_card_grid(slide, n=7, cards=cards, note="설명 카드")
+    rects = [s for s in slide.shapes if s.shape_type == 1]
+    assert len(rects) == 8
