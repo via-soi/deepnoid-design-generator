@@ -1,5 +1,5 @@
 from pptx.util import Cm
-from tools.deepnoid_builder.patterns import add_eyebrow_and_title, add_card, add_card_grid
+from tools.deepnoid_builder.patterns import add_eyebrow_and_title, add_card, add_card_grid, add_comparison
 
 
 def test_eyebrow_and_title_adds_two_textboxes(slide):
@@ -46,3 +46,20 @@ def test_grid_7_adds_eight_cards(slide):
     add_card_grid(slide, n=7, cards=cards, note="설명 카드")
     rects = [s for s in slide.shapes if s.shape_type == 1]
     assert len(rects) == 8
+
+
+def test_comparison_adds_two_panels(slide):
+    add_comparison(slide,
+                   asis={"label": "AS-IS · 지금", "header": "반복 업무", "bullets": ["a", "b", "c"]},
+                   tobe={"label": "TO-BE · 이후", "header": "검토·책임", "bullets": ["d", "e", "f"]})
+    rects = [s for s in slide.shapes if s.shape_type == 1]
+    assert len(rects) == 2  # 좌·우 패널
+
+
+def test_comparison_caption(slide):
+    add_comparison(slide,
+                   asis={"label": "L", "header": "Lh", "bullets": ["1", "2", "3"]},
+                   tobe={"label": "R", "header": "Rh", "bullets": ["4", "5", "6"]},
+                   caption="요약 캡션")
+    cap = [s for s in slide.shapes if s.has_text_frame and "요약 캡션" in s.text_frame.text]
+    assert len(cap) == 1

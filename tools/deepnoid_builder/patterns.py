@@ -150,6 +150,82 @@ def _grid_7(slide, cards: list, note: str) -> None:
              header="", body=note, accent="green")
 
 
+# ================== §6.3 비교형 ==================
+COMPARE_LEFT = (1.33, 6.5, 15.2, 8.5)    # x, y, w, h
+COMPARE_RIGHT = (17.34, 6.5, 15.2, 8.5)
+CAPTION_Y = 16.0
+
+
+def add_comparison(slide, asis: dict, tobe: dict, caption: str = "") -> None:
+    """§6.3 AS-IS / TO-BE 비교 카드 2장 + 선택 캡션.
+
+    asis/tobe: {"label": str, "header": str, "bullets": list[str]}
+    """
+    # 좌측 (AS-IS)
+    _compare_panel(slide, *COMPARE_LEFT,
+                   fill=LIGHT_BLUE, line=None,
+                   label=asis["label"], label_color=NAVY,
+                   header=asis["header"], bullets=asis["bullets"],
+                   highlight_last=False)
+    # 우측 (TO-BE)
+    _compare_panel(slide, *COMPARE_RIGHT,
+                   fill=WHITE, line=(GREEN, 1.5),
+                   label=tobe["label"], label_color=GREEN,
+                   header=tobe["header"], bullets=tobe["bullets"],
+                   highlight_last=True)
+    if caption:
+        tb = slide.shapes.add_textbox(Cm(BODY_X), Cm(CAPTION_Y), Cm(31.21), Cm(0.8))
+        from pptx.enum.text import PP_ALIGN
+        p = tb.text_frame.paragraphs[0]
+        p.alignment = PP_ALIGN.CENTER
+        p.text = ""
+        run = p.add_run()
+        run.text = caption
+        run.font.name = "Pretendard"
+        run.font.size = Pt(14)
+        run.font.color.rgb = MUTED
+
+
+def _compare_panel(slide, x, y, w, h, fill, line,
+                   label: str, label_color, header: str, bullets: list,
+                   highlight_last: bool) -> None:
+    rect = slide.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE,
+                                  Cm(x), Cm(y), Cm(w), Cm(h))
+    rect.adjustments[0] = 0.05
+    rect.fill.solid()
+    rect.fill.fore_color.rgb = fill
+    if line is None:
+        rect.line.fill.background()
+    else:
+        color, width_pt = line
+        rect.line.color.rgb = color
+        rect.line.width = Pt(width_pt)
+    rect.shadow.inherit = False
+    # 라벨 (10pt Bold)
+    tb = slide.shapes.add_textbox(Cm(x + 0.5), Cm(y + 0.5), Cm(w - 1.0), Cm(0.6))
+    _fmt_text(tb, label, size_pt=10, bold=True, color=label_color)
+    # 헤더 (14pt Bold)
+    tb = slide.shapes.add_textbox(Cm(x + 0.5), Cm(y + 1.3), Cm(w - 1.0), Cm(1.0))
+    _fmt_text(tb, header, size_pt=14, bold=True, color=BLACK)
+    # 본문 bullets (14pt Regular)
+    tb = slide.shapes.add_textbox(Cm(x + 0.5), Cm(y + 2.6),
+                                  Cm(w - 1.0), Cm(h - 3.0))
+    tf = tb.text_frame
+    tf.word_wrap = True
+    tf.margin_left = tf.margin_right = Cm(0.1)
+    tf.margin_top = tf.margin_bottom = Cm(0.1)
+    for i, b in enumerate(bullets):
+        p = tf.paragraphs[0] if i == 0 else tf.add_paragraph()
+        p.text = ""
+        run = p.add_run()
+        run.text = f"•  {b}"
+        run.font.name = "Pretendard"
+        run.font.size = Pt(14)
+        is_last_highlight = highlight_last and i == len(bullets) - 1
+        run.font.bold = is_last_highlight
+        run.font.color.rgb = BLUE if is_last_highlight else BLACK
+
+
 # ================== 공용 텍스트 헬퍼 ==================
 def _fmt_text(shape, text: str, size_pt: float, bold: bool, color: RGBColor) -> None:
     """텍스트박스/도형에 단일 단락·단일 run 텍스트를 채운다."""
