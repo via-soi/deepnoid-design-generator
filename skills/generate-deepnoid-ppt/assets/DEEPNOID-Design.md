@@ -1,6 +1,6 @@
 ---
-name: DEEPNOID
-version: "2.1 (2026-05-26)"
+name: DEEPNOID-Design
+version: "3.0 (2026-05-26)"
 description: >
   딥노이드의 공식 디자인 시스템. PPT, 웹, 인쇄물, UI 등 모든 결과물에 적용됩니다.
   AI 에이전트는 이 파일을 먼저 읽고 모든 디자인 결정을 내려야 합니다.
