@@ -1,0 +1,22 @@
+from pptx.util import Cm
+from tools.deepnoid_builder.patterns import add_eyebrow_and_title, add_card
+
+
+def test_eyebrow_and_title_adds_two_textboxes(slide):
+    add_eyebrow_and_title(slide, eyebrow="Intro / 지금 우리", title="도입은 모두에게")
+    txts = [s for s in slide.shapes if s.has_text_frame]
+    eyebrow = [s for s in txts if "Intro" in s.text_frame.text]
+    title = [s for s in txts if "도입은" in s.text_frame.text]
+    assert len(eyebrow) == 1
+    assert len(title) == 1
+
+
+def test_card_adds_rectangle_with_header_and_body(slide):
+    add_card(slide, x_cm=1.33, y_cm=6.5, w_cm=10.0, h_cm=9.0,
+             header="R&D", body="70%", accent="blue")
+    # 1 사각형(카드) + 1 텍스트박스(헤더+본문) 또는 헤더/본문 각각 = 도형 ≥ 2
+    assert len(slide.shapes) >= 2
+    # 카드 안에 R&D 와 70% 텍스트가 있어야 함
+    all_text = " ".join(s.text_frame.text for s in slide.shapes if s.has_text_frame)
+    assert "R&D" in all_text
+    assert "70%" in all_text
