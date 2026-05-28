@@ -24,6 +24,27 @@
   (Word 템플릿은 비공개 자료로, 구동 시 별도 제공 필요).
 - 원본 템플릿을 복제하고 텍스트·데이터만 교체해 디자인을 그대로 보존하는 방식.
 
+## 사용 방법 (MVP 자동화 빌더)
+
+1. **입력 outline 작성** — `examples/sample-outline.yaml` 참고
+2. **빌드 실행**:
+   ```bash
+   python tools/generate_deck.py path/to/outline.yaml
+   ```
+3. **시각 검수** (선택):
+   ```bash
+   node tools/render_pptx.mjs <output.pptx> _work/preview
+   ```
+
+Claude Code 환경에서는 슬래시 명령으로 한 번에:
+
+```
+/generate-deck path/to/outline.yaml
+```
+
+지원 슬라이드 타입: `cover` · `divider` · `card-grid-2/3/4/7` · `comparison` · `step` · `kpi` · `outro`.
+입력 형식 상세는 `skills/generate-deepnoid-ppt/SKILL.md` 또는 `docs/specs/2026-05-28-mvp-automation-design.md` 참조.
+
 ## 구성
 
 | 경로 | 내용 |
@@ -41,8 +62,5 @@
 - [x] Python 런타임 의존성 정의 (`requirements.txt`)
 - [x] 보조 스크립트 — 추출·렌더링·매핑
 - [x] DEEPNOID PPT 템플릿 포함
-- [ ] 슬라이드 카탈로그
-- [ ] 자동 파이프라인 스크립트
-- [ ] 스킬·에이전트·명령
-
-자동 파이프라인·에이전트는 미개발 상태이며, 현재는 핵심 변환 작업을 수동으로 수행합니다.
+- [x] 자동 파이프라인 (MVP — outline YAML → PPTX)
+- [x] 스킬·슬래시 명령 (MVP — 에이전트 팀은 이후 단계)
