@@ -1,0 +1,14 @@
+{
+  "name": "deepnoid-tools",
+  "owner": { "name": "DEEPNOID", "url": "https://github.com/via-soi" },
+  "plugins": [
+    {
+      "name": "deepnoid-design-generator",
+      "source": { "source": "github", "repo": "via-soi/deepnoid-design-generator" },
+      "displayName": "DEEPNOID Design Generator",
+      "description": "구조화 YAML 아웃라인을 DEEPNOID 디자인 시스템 그대로 PPTX로 자동 생성",
+      "category": "productivity",
+      "tags": ["pptx", "design", "deepnoid", "automation", "korean"]
+    }
+  ]
+}

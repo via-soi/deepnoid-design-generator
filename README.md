@@ -45,6 +45,19 @@ Claude Code 환경에서는 슬래시 명령으로 한 번에:
 지원 슬라이드 타입: `cover` · `divider` · `card-grid-2/3/4/7` · `comparison` · `step` · `kpi` · `outro`.
 입력 형식 상세는 `skills/generate-deepnoid-ppt/SKILL.md` 또는 `docs/specs/2026-05-28-mvp-automation-design.md` 참조.
 
+## 동료에게 배포 (Claude Code 마켓플레이스)
+
+회사 동료가 Claude Code에서 두 줄로 설치할 수 있습니다.
+
+```
+/plugin marketplace add via-soi/deepnoid-design-generator
+/plugin install deepnoid-design-generator@deepnoid-tools
+```
+
+설치 후 `/generate-deck <outline.yaml>` 명령이 활성화됩니다. **비개발자 동료용 한글 단계별 설치 안내**는 [`docs/INSTALL.md`](docs/INSTALL.md) 참조 (사전 준비·첫 PPT 생성·자주 마주칠 문제 포함).
+
+업데이트가 있을 때마다 동료는 `/plugin update deepnoid-design-generator` 한 줄로 동기화됩니다.
+
 ## 구성
 
 | 경로 | 내용 |
